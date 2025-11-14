@@ -1,277 +1,218 @@
-# Multi-Agent Travel Planner with CrewAI
+# AI-Powered Travel Planning Agentic System
 
-An advanced AI-powered travel planning system that uses multiple specialized agents working collaboratively to create comprehensive, personalized travel plans. The system integrates real-time flight search, hotel booking, destination research, and itinerary planning into a seamless multi-agent workflow.
+An intelligent multi-agent travel planning system that creates comprehensive, hour-by-hour travel itineraries with integrated flight searches, accommodation recommendations, and local cultural insights.
 
-## Overview
+## Features
 
-This project enhances a travel planning agentic system by adding **real-time flight search** and **hotel search** capabilities using CrewAI's multi-agent framework. The system employs specialized AI agents that work together autonomously to research destinations, plan routes, search for flights and hotels, and compile everything into a detailed, time-integrated travel guide.
+- **Smart Multi-City Routing**: Automatically identifies optimal gateway cities and travel routes
+- **Integrated Flight Search**: Real-time flight searches with exact arrival/departure times using Google Flights API
+- **Dynamic Itinerary Generation**: Creates detailed day-by-day schedules with morning/afternoon/evening breakdowns
+- **Hotel Recommendations**: Finds accommodations aligned with your itinerary and budget
+- **Local Cultural Insights**: Provides customs, etiquette, food recommendations, and practical tips
+- **Budget-Aware Planning**: Tailors recommendations to your specified budget level
+- **Personalized Preferences**: Customizes activities based on your interests (culture, food, adventure, etc.)
 
-## Key Features
+## System Architecture
 
-- 🤖 **Multi-Agent Architecture**: Specialized agents collaborate to handle different aspects of travel planning
-- ✈️ **Real-Time Flight Search**: Integrated SerpAPI Google Flights for live flight data with pricing and schedules
-- 🏨 **Hotel Search**: Real-time hotel availability and pricing via SerpAPI Google Hotels
-- 🌐 **Web Research**: Tavily search for up-to-date destination information
-- 🗺️ **Smart Itinerary Planning**: Two-phase approach that first plans routes, then searches flights
-- 🎯 **IATA Code Resolution**: Automatic conversion of city names to airport codes
-- ⏰ **Time Integration**: Seamless integration of flight times into day-by-day itineraries
+The system uses a 3-phase sequential approach:
 
-## Architecture
+### Phase 1: Itinerary Planning
 
-### Multi-Agent System
+- **Destination Researcher**: Researches destinations and identifies gateway cities
+- **Attractions Specialist**: Discovers activities and experiences based on preferences
+- **City Route Planner**: Plans optimal multi-city routes
+- **Preliminary Itinerary Planner**: Creates detailed day-by-day schedules
 
-The system uses **CrewAI** to coordinate multiple specialized agents:
+### Phase 2: Flight Search
 
-#### Phase 1: Itinerary Planning Agents
+- **Flight Specialist**: Searches flights based on identified cities and provides exact timing
 
-1. **Destination Research Expert**
-   - Researches comprehensive destination information
-   - Identifies main gateway cities for international travel
-   - Provides weather, culture, safety, and practical information
+### Phase 3: Integration & Finalization
 
-2. **Attractions & Activities Expert**
-   - Discovers best attractions and activities
-   - Recommends experiences based on traveler preferences
-   - Finds both popular attractions and hidden gems
+- **Final Itinerary Integrator**: Combines flights with itinerary for perfect timing
+- **Accommodation Specialist**: Finds hotels matching the finalized schedule
+- **Local Guide**: Provides cultural and practical information
+- **Travel Manager**: Compiles everything into a comprehensive travel plan
 
-3. **City Route Planning Specialist**
-   - Plans optimal routes between cities
-   - Identifies best arrival and departure cities for flights
-   - Determines efficient multi-city routing
+## Technologies Used
 
-4. **Preliminary Itinerary Planner**
-   - Creates detailed day-by-day itineraries
-   - Identifies specific cities and timing
-   - Clearly marks arrival and departure cities for flight booking
+- **CrewAI**: Multi-agent orchestration framework
+- **LangChain**: LLM integration and tooling
+- **OpenAI GPT-4**: Primary language model
+- **Tavily API**: Web search capabilities
+- **SerpAPI**: Flight and hotel search via Google Flights/Hotels
+- **Python 3.x**: Core programming language
 
-#### Phase 2: Flight & Accommodation Agents
+## Prerequisites
 
-5. **Flight Search Specialist**
-   - Searches for flights based on itinerary cities
-   - Converts city names to IATA airport codes
-   - Provides exact arrival and departure times
-   - Finds best flight options with pricing
+- Python 3.8+
+- Google Colab account (or local Python environment)
+- API Keys for:
+  - OpenAI
+  - Tavily
+  - SerpAPI
 
-6. **Accommodation Expert**
-   - Searches hotels based on itinerary and budget
-   - Matches accommodations to traveler preferences
-   - Provides pricing, ratings, and amenities
+##  Installation
 
-#### Phase 3: Integration Agents
+### Clone the repository
 
-7. **Master Itinerary Integrator**
-   - Combines preliminary itinerary with flight information
-   - Creates time-integrated schedule with exact flight times
-   - Ensures perfect hour-by-hour timing
+```bash
+git clone https://github.com/yourusername/travel-planning-agent.git
+cd travel-planning-agent
+```
 
-8. **Local Culture & Practical Guide**
-   - Provides essential local knowledge
-   - Covers customs, etiquette, food, transportation
-   - Offers practical travel tips
-
-9. **Travel Project Manager**
-   - Compiles all information into final travel guide
-   - Creates polished, comprehensive travel plan
-   - Ensures perfect timing integration
-
-## Tools & APIs
-
-### Custom Tools
-
-1. **Web Search Tool** (Tavily)
-   - Searches the web for up-to-date destination information
-   - Returns formatted results with sources
-
-2. **Find Airport Code Tool** (SerpAPI)
-   - Converts city/location names to IATA airport codes
-   - Uses Google Search knowledge graph for accurate resolution
-   - Handles country names, city names, and location descriptions
-
-3. **Search Flights Tool** (SerpAPI Google Flights)
-   - Searches for detailed flight information
-   - Provides pricing, duration, stops, airlines
-   - Includes specific arrival and departure times
-   - Supports both one-way and round-trip flights
-
-4. **Search Hotels Tool** (SerpAPI Google Hotels)
-   - Searches hotel options based on destination and dates
-   - Provides pricing, ratings, reviews, amenities
-   - Matches hotels to itinerary and budget
-
-## Two-Phase Approach
-
-### The Challenge
-
-SerpAPI's Google Flights requires precise IATA airport codes (e.g., "BKK" not "Bangkok"), but users typically provide destinations as countries or city names.
-
-### The Solution
-
-**Phase 1: Itinerary-First Approach**
-- Create complete preliminary itinerary first
-- Identify optimal arrival gateway city (e.g., Bangkok for Thailand)
-- Determine best departure gateway city (e.g., Chiang Mai for northern route)
-- Plan logical city-to-city routing
-
-**Phase 2: Flight Search**
-- Use itinerary-identified cities
-- Convert city names to IATA codes using `find_airport_code` tool
-- Search flights with precise airport codes
-- Integrate flight times into final itinerary
-
-## Requirements
-
-### Python Packages
+### Install required packages
 
 ```bash
 pip install crewai langchain langchain-openai langchain-community python-dotenv google-search-results
 ```
 
-### Key Libraries
-- **CrewAI**: Multi-agent orchestration framework
-- **LangChain**: LLM integration and tooling
-- **OpenAI**: GPT-4o for agent reasoning
-- **SerpAPI**: Real-time flight and hotel search
-- **Tavily**: Web search for destination research
+### Set up API keys
 
-### API Keys Required
+Create a `.env` file or set up secrets in Google Colab:
 
-1. **OpenAI API Key**: For LLM-powered agents
-   - Get from: https://platform.openai.com/api-keys
+```env
+OPENAI_API_KEY=your_openai_api_key
+TAVILY_API_KEY=your_tavily_api_key
+SERPAPI_API_KEY=your_serpapi_api_key
+```
 
-2. **Tavily API Key**: For web search
-   - Get from: https://tavily.com/
+##  Usage
 
-3. **SerpAPI Key**: For flight and hotel search
-   - Get from: https://serpapi.com/
+### Running in Google Colab
 
-### Setup
+1. Upload the notebook to Google Colab
+2. Add your API keys to Colab Secrets:
+   - Go to the 🔑 icon in the left sidebar
+   - Add `OPENAI_API_KEY`, `TAVILY_API_KEY`, and `SERPAPI_API_KEY`
+3. Run all cells
 
-1. Create a `.env` file or set environment variables:
-   ```bash
-   OPENAI_API_KEY=your_openai_key
-   TAVILY_API_KEY=your_tavily_key
-   SERPAPI_API_KEY=your_serpapi_key
-   ```
-
-2. Or in Google Colab, use `userdata`:
-   ```python
-   from google.colab import userdata
-   OPENAI_API_KEY = userdata.get("OPENAI_API_KEY")
-   TAVILY_API_KEY = userdata.get("TAVILY_API_KEY")
-   SERPAPI_API_KEY = userdata.get("SERPAPI_API_KEY")
-   ```
-
-## Usage
-
-1. **Open the Jupyter Notebook**:
-   ```bash
-   jupyter notebook Multi-Agent-Travel-Planner-with-CrewAI.ipynb
-   ```
-
-2. **Set up API keys** (see Requirements section)
-
-3. **Run the notebook cells** to:
-   - Install dependencies
-   - Initialize agents and tools
-   - Create and execute the travel planning crew
-   - Generate comprehensive travel plans
-
-### Example Input
+### Running Locally
 
 ```python
-origin_city = "New York"
-destination = "Thailand"
-travel_dates = "2025-06-01 to 2025-06-15"
-duration_days = 14
-preferences = "Cultural sites, beaches, local food"
-budget = "moderate"
-travelers_count = 2
+from travel_planning_system import *
+
+# Set your API keys
+os.environ["OPENAI_API_KEY"] = "your_key"
+os.environ["TAVILY_API_KEY"] = "your_key"
+os.environ["SERPAPI_API_KEY"] = "your_key"
+
+# Create tasks
+tasks = create_smart_adaptive_tasks(
+    origin_city="San Francisco",
+    destination="Thailand",
+    travel_dates="2025-03-15 to 2025-03-22",
+    duration_days=7,
+    preferences="Culture, Food, Temples, Beaches",
+    budget="moderate",
+    travelers_count=2
+)
+
+# Execute
+crew = Crew(agents=agents, tasks=tasks, process=Process.sequential)
+results = crew.kickoff()
 ```
 
-## Project Structure
+##  Input Parameters
 
-```
-multi-agent-travel-planner-with-CrewAI/
-├── Multi-Agent-Travel-Planner-with-CrewAI.ipynb
-└── README.md
-```
+When running the system, you'll be prompted for:
 
-## How It Works
+- **Departure City**: Your starting location (e.g., "San Francisco")
+- **Destination**: Country or city (e.g., "Thailand" or "Bangkok")
+- **Travel Dates**: Format: `YYYY-MM-DD` or `YYYY-MM-DD to YYYY-MM-DD`
+- **Duration**: Number of days for the trip
+- **Number of Travelers**: How many people are traveling
+- **Preferences**: Your interests (e.g., "Culture, Food, Adventure")
+- **Budget**: Level - `budget`, `moderate`, or `luxury`
 
-1. **User Input**: Provides destination, dates, preferences, budget, and traveler count
+## Example Output
 
-2. **Phase 1 - Itinerary Planning**:
-   - Destination Research Expert gathers comprehensive information
-   - Attractions Specialist finds activities matching preferences
-   - City Route Planner determines optimal routing
-   - Preliminary Itinerary Planner creates day-by-day plan with specific cities
+The system generates a comprehensive travel plan including:
 
-3. **Phase 2 - Flight & Hotel Search**:
-   - Flight Search Specialist converts cities to IATA codes
-   - Searches real-time flights with exact timing
-   - Accommodation Expert finds hotels matching itinerary
+### 🌍 COMPLETE TRAVEL PLAN
 
-4. **Phase 3 - Integration**:
-   - Master Itinerary Integrator combines all information
-   - Local Guide adds cultural and practical tips
-   - Travel Project Manager compiles final comprehensive guide
+#### ✈️ FLIGHT DETAILS
+- Outbound: SFO → BKK on 2025-03-15
+  Arrive: 8:30 PM at Suvarnabhumi Airport
+- Return: CNX → SFO on 2025-03-22
+  Depart: 11:45 AM from Chiang Mai International
 
-5. **Output**: Complete travel plan with:
-   - Day-by-day itinerary with exact timing
-   - Flight options with prices and schedules
-   - Hotel recommendations with ratings
-   - Local tips and cultural information
+#### 📍 DESTINATION OVERVIEW
+- Weather, culture, and practical information
 
-## Agent Collaboration
+#### 🎯 ATTRACTIONS & ACTIVITIES
+- Organized by city with timing and costs
 
-CrewAI coordinates agents using:
-- **Memory**: Agents remember previous interactions
-- **Task Dependencies**: Tasks are sequenced logically
-- **Tool Sharing**: Agents use appropriate tools for their roles
-- **Autonomous Coordination**: CrewAI manages agent communication
+#### 🗓️ DETAILED TIME-BASED ITINERARY
 
-## Benefits
+**DAY 1 (2025-03-15) - ARRIVAL IN BANGKOK**
 
-- ✅ **Comprehensive Planning**: All aspects of travel in one system
-- ✅ **Real-Time Data**: Live flight and hotel availability
-- ✅ **Personalized**: Adapts to user preferences and budget
-- ✅ **Time-Accurate**: Integrates exact flight times into itinerary
-- ✅ **Scalable**: Easy to add new agents or tools
-- ✅ **Autonomous**: Agents work together without manual intervention
+FLIGHT ARRIVAL: 8:30 PM at Suvarnabhumi Airport
 
-## Limitations
+**Evening (8:30 PM - 11:00 PM):**
+- Airport transfer to hotel (45 mins)
+- Check-in and rest
+- ...
 
-- Requires API keys for external services (costs may apply)
-- Flight and hotel search depends on SerpAPI availability
-- Processing time depends on number of agents and complexity
-- Results quality depends on LLM performance and API data accuracy
+#### 🏨 ACCOMMODATION
+- Hotel recommendations with pricing
 
-## Future Enhancements
+#### 🧭 LOCAL GUIDE
+- Cultural tips and practical information
 
-- Add weather forecast integration
-- Include restaurant recommendations
-- Add transportation booking (trains, buses)
-- Integrate currency conversion
-- Add travel document requirements
-- Include travel insurance recommendations
+## 🔧 Key Features Explained
 
-## References
+### Intelligent City Resolution
+The system automatically identifies that "Thailand" requires routing through specific cities (Bangkok, Chiang Mai) rather than searching for flights to "Thailand" directly.
 
-- [CrewAI Documentation](https://docs.crewai.com/)
-- [LangChain Documentation](https://python.langchain.com/)
-- [SerpAPI Documentation](https://serpapi.com/)
-- [Tavily Search API](https://tavily.com/)
+### IATA Code Detection
+Built-in airport code database plus dynamic SerpAPI lookup for less common airports.
+
+### Time Integration
+Flight arrival/departure times are integrated into the daily schedule for realistic planning.
+
+### Sequential Processing
+Tasks execute in order to ensure later agents have necessary information from earlier agents.
+
+##  Troubleshooting
+
+### Issue: Flight search fails
+
+**Solution**: Verify SerpAPI key is valid and has Google Flights credits
+
+### Issue: No hotels found
+
+**Solution**: Check date format is `YYYY-MM-DD` and destination is correctly spelled
+
+### Issue: Generic itinerary without specific cities
+
+**Solution**: Ensure Phase 1 agents complete before Phase 2 runs
+
+##  Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+##  License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+##  Acknowledgments
+
+- CrewAI for the multi-agent framework
+- Anthropic Claude and OpenAI for AI capabilities
+- SerpAPI for flight and hotel search functionality
+- Tavily for web search capabilities
 
 ## Author
 
-**Khanh Le**
+**Khanh Le** 
 
 
 
-## License
-
-This project uses various third-party APIs. Please refer to their respective terms of service:
-- OpenAI API Terms
-- SerpAPI Terms
-- Tavily Terms
 
