@@ -57,7 +57,7 @@ The system uses a 3-phase sequential approach:
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/travel-planning-agent.git
+git clone https://github.com/monkeybuzinis/Multi-Agent-Travel-Planner-with-CrewAI.git
 cd travel-planning-agent
 ```
 
